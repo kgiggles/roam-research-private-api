@@ -8,16 +8,6 @@ const argv = yargs
 		description: 'Your graph name',
 		type: 'string',
 	} )
-	.option( 'email', {
-		alias: 'e',
-		description: 'Your Roam Email',
-		type: 'string',
-	} )
-	.option( 'password', {
-		alias: 'p',
-		description: 'Your Roam Password',
-		type: 'string',
-	} )
 	.option( 'debug', {
 		description: 'enable debug mode',
 		type: 'boolean',
@@ -44,7 +34,8 @@ const argv = yargs
 				return;
 			}
 			const RoamPrivateApi = require( '../' );
-			const api = new RoamPrivateApi( argv.graph, argv.email, argv.password, {
+			const secrets = require('../secrets.json');
+			const api = new RoamPrivateApi( argv.graph, secrets.email, secrets.password, {
 				headless: ! argv.debug,
 			} );
 
@@ -54,6 +45,6 @@ const argv = yargs
 	.help()
 	.alias( 'help', 'h' )
 	.demandOption(
-		[ 'graph', 'email', 'password' ],
+		[ 'graph',],
 		'You need to provide graph name, email and password'
 	).argv;
